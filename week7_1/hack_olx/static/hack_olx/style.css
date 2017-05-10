@@ -1,0 +1,10 @@
+html > body {
+    background-color: #3D3D3C;
+}
+
+.hover-effect:hover {
+  opacity: 0.7;
+  background-color: black;
+  color: brown;
+  border: 3px solid green;
+}

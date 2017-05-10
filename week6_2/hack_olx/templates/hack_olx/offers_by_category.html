@@ -1,0 +1,25 @@
+{% extends "hack_olx/base.html" %}
+
+
+{% block content %}
+    <h2 class='text-center mx-auto'>Category: {{ category.name }}</h2>
+    <br />
+    <div class="card-group">
+        {% for offer in object_list %}
+            <a href="{% url 'offer_detail_url' offer.pk %}">
+                <div class="card">
+                    <img  src="{{ MEDIA_URL }}{{ offer.image }}" alt="{{ offer.title }} img" class="card-img-top" class="img-fluid" width="300" height="300">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ offer.title }}</h4>
+                        <p class="card-text">{{ offer.description }}</p>
+                        <p class="card-text">Price:{{ offer.price }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p>Author: {{ offer.author }}</p>
+                        <small class="text-muted">Created at: {{ offer.created_at }}</small>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock content %}

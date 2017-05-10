@@ -1,0 +1,21 @@
+{% extends "hack_olx/base.html" %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6  mx-auto">
+            <h2>Top Categories</h2>
+            {% for c in top3_categories %}
+                <p>{{ c }} - {{ c.num_offers }}offers</p>
+            {% endfor %}
+
+            <hr />
+
+            <h2>Most posts</h2>
+            {% for u in top3_users %}
+                {# <p> {{ u }}</p> #}
+                <p>{{ u.author__username }}-{{ u.number_of_offers }}offers-{{ u.number_of_categories }}categories</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

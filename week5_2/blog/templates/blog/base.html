@@ -1,0 +1,267 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+	<link rel="shortcut icon" href="images/favicon.png">
+	<title>POLO | The Multi-Purpose HTML5 Template</title>
+
+	<!-- Bootstrap Core CSS -->
+    <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'blog/css/animate.min.css' %}" rel="stylesheet">
+
+	<!-- Vendor css -->
+    <link href="{% static 'bower_components/owlcarousel/owl-carousel/owl.carousel.css' %}" rel="stylesheet">
+    <link href="{% static 'bower_components/magnific-popup/dist/magnific-popup.css'%}" rel="stylesheet">
+
+	<!-- Template base -->
+    <link href="{% static 'blog/css/theme-base.css' %}" rel="stylesheet">
+
+	<!-- Template elements -->
+    <link href="{% static 'blog/css/theme-elements.css' %}" rel="stylesheet">
+
+<!-- Responsive classes -->
+    <link href="{% static 'blog/css/responsive.css' %}" rel="stylesheet">
+
+	<!-- Template color -->
+    <link href="{% static 'blog/css/color-variations/blue.css' %}" rel="stylesheet" type="text/css" media="screen" title="blue">
+
+	<!-- LOAD GOOGLE FONTS -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,800,700,600%7CRaleway:100,300,600,700,800" rel="stylesheet" type="text/css" />
+
+	<!-- BLOG FONT & STYLE -->
+	<link href="http://fonts.googleapis.com/css?family=Damion" rel="stylesheet" type="text/css">
+    <link href="{% static 'blog/css/style-blog.css' %}" media="screen" rel="stylesheet" type="text/css" />
+
+    <!--VENDOR SCRIPT-->
+    {# <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script> #}
+    <script src="{% static 'blog/js/jquery-1.11.2.min.js' %}"></script>
+    <script src="{% static 'blog/js/plugins-compressed.js' %}"></script>
+
+</head>
+
+<body class="wide">
+	<!--SITE LOADER-->
+	<div class="loader-wrapper">
+        <div class="loader"> <img width="40" src="{% static 'blog/img/puff.svg' %}" alt=""> <span class="loader-title">Page is loading, just a sec...</span> </div>
+	</div>
+	<!--END: SITE LOADER-->
+
+	<!--WRAPPER-->
+	<div class="wrapper">
+		<!--HEADER-->
+		<header id="header" class="header-mini header-dark">
+			<div id="header-wrap">
+				<div class="container">
+
+					<!--LOGO-->
+					<div id="logo">
+                        <a href="{% url 'index_url' %}" class="logo" data-dark-logo="{%static 'blog/img/logo-dark.png' %}"> <img src="{% static 'blog/img/logo-dark.png' %}" alt="Polo Logo"> </a>
+					</div>
+					<!--END: LOGO-->
+
+					<!--MOBILE MENU -->
+					<div class="nav-main-menu-responsive">
+						<button class="lines-button x">
+							<span class="lines"></span>
+						</button>
+					</div>
+					<!--END: MOBILE MENU -->
+
+					<!--TOP SEARCH -->
+					<div id="top-search"> <a id="top-search-trigger"><i class="fa fa-search"></i><i class="fa fa-close"></i></a>
+						<form action="search-results-page.html" method="get">
+							<input type="text" name="q" class="form-control" value="" placeholder="Start typing & press  &quot;Enter&quot;">
+						</form>
+					</div>
+					<!--END: TOP SEARCH -->
+
+					<!--NAVIGATION-->
+					<div class="navbar-collapse collapse main-menu-collapse navigation-wrap">
+						<div class="container">
+							<nav class="main-menu mega-menu" id="mainMenu">
+								<ul class="main-menu nav nav-pills">
+									<li><a href="index.html"><i class="fa fa-home"></i></a> </li>
+									<li class="dropdown"> <a href="#">About </a> </li>
+									<li class="dropdown"> <a href="#">Blog</a> </li>
+									<li class="dropdown"> <a href="#">Contact</a> </li>
+                                    {% if request.user.is_authenticated %}
+                                        <li><a href="{% url 'logout_url' %}">LogOut</a></li>
+                                        <li><a href="{% url 'create_blog_post_url' %}">Create new post</a></li>
+                                    {% endif %}
+                                    {% if not request.user.is_authenticated %}
+                                        <li><a href="{% url 'login_url' %}">LogIn</a></li>
+                                        <li><a href="{% url 'register_url' %}">Register</a></li>
+                                    {% endif %}
+								</ul>
+							</nav>
+						</div>
+					</div>
+					<!--END: NAVIGATION-->
+				</div>
+			</div>
+		</header>
+		<!--END: HEADER-->
+
+<!-- SLIDER OWL -->
+<section class="p-b-0">
+	<div class="container">
+		<div id="slider-carousel" class="boxed-slider">
+
+            <div style="{% static 'blog/img/1.jpg' %}" class="owl-bg-img">
+
+				<div class="container container-fullscreen">
+					<div class="text-middle">
+						<div class="text-center text-light">
+							<h6>LIFESTYLE</h6>
+							<div class="seperator seperator-small no-padding"></div>
+							<h1 class="text-uppercase">Lorem ipsum dolor sit amet</h1>
+
+							<a class="button border rounded transparent" href="#">Read more</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+            <div style="{% static 'blog/img/2.jpg' %}" class="owl-bg-img">
+				<div class="container container-fullscreen">
+					<div class="text-middle">
+						<div class="text-center text-light">
+							<h6>LIFESTYLE</h6>
+							<div class="seperator seperator-small no-padding"></div>
+							<h1 class="text-uppercase">Lorem ipsum dolor sit amet</h1>
+
+							<a class="button border rounded transparent" href="#">Read more</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+            <div style="{% static 'blog/img/3.jpg' %}" class="owl-bg-img">
+				<div class="container container-fullscreen">
+					<div class="text-middle">
+						<div class="text-center text-light">
+							<h6>LIFESTYLE</h6>
+							<div class="seperator seperator-small no-padding"></div>
+							<h1 class="text-uppercase">Lorem ipsum dolor sit amet</h1>
+
+							<a class="button border rounded transparent" href="#">Read more</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- END: SLIDER OWL -->
+
+<!-- CONTENT -->
+<section class="p-t-40">
+	<div class="container">
+		<div class="row">
+            {% block content %}
+            {% endblock content %}
+			<!-- Sidebar-->
+			<div class="sidebar col-md-3">
+
+				<!--widget blog articles-->
+				<div class="widget clearfix widget-blog-articles">
+					<h4 class="widget-title">From our Blog</h4>
+					<ul class="list-posts list-medium">
+						<li><a href="#">Printing and typesetting</a>
+							<small>Jun 18 2015</small>
+						</li>
+						<li><a href="#">Lorem Ipsum has been the industry's</a><small>Jun 18 2015</small>
+						</li>
+						<li><a href="#">Ipsum and typesetting</a><small>Jun 18 2015</small>
+						</li>
+						<li><a href="#">Specimen book</a><small>Jun 18 2015</small>
+						</li>
+
+					</ul>
+				</div>
+				<!--end: widget blog articles-->
+
+				<!--widget categories-->
+				<div class="widget clearfix widget-categories">
+					<h4 class="widget-title">Our Services</h4>
+					<ul class="list list-arrow-icons">
+						<li> <a title="" href="#">Development </a> </li>
+						<li> <a title="" href="#">Branding </a> </li>
+						<li> <a title="" href="#">Marketing </a> </li>
+						<li> <a title="" href="#">Branding </a> </li>
+						<li> <a title="" href="#">Strategy solutions</a> </li>
+						<li> <a title="" href="#">Copywriting </a> </li>
+					</ul>
+				</div>
+				<!--end: widget categories-->
+
+				<!--widget contact us-->
+				<div class="widget clearfix widget-contact-us" style="background-image: url('images/world-map.png'); background-position: 50% 55px; background-repeat: no-repeat">
+				<div class="widget clearfix widget-contact-us" style="background-image: url('{% static 'blog/img/world-map.png' %}'); background-position: 50% 55px; background-repeat: no-repeat">
+					<h4 class="widget-title">Contact us</h4>
+					<ul class="list-large list-icons">
+						<li><i class="fa fa-map-marker"></i>
+							<strong>Address:</strong> 795 Folsom Ave, Suite 600
+							<br>San Francisco, CA 94107</li>
+						<li><i class="fa fa-phone"></i><strong>Phone:</strong> (123) 456-7890 </li>
+						<li><i class="fa fa-envelope"></i><strong>Email:</strong> <a href="mailto:first.last@example.com">first.last@example.com</a>
+						</li>
+						<li><i class="fa fa-clock-o"></i>Monday - Friday: <strong>08:00 - 22:00</strong>
+							<br>Saturday, Sunday: <strong>Closed</strong>
+						</li>
+					</ul>
+				</div>
+				<!--end: widget contact us-->
+
+				<!--widget blockquote -->
+				<div class="widget clearfix widget-blockquote">
+					<h4 class="widget-title">Blockquote widget</h4>
+					<blockquote class="blockquote-simple">
+						<p>Art is the only serious thing in the world. And the artist is the only person who is never serious.</p>
+						<small>by <cite>Oscar Wilde</cite></small>
+					</blockquote>
+				</div>
+				<!--end: widget blockquote -->
+
+			</div>
+			<!-- END: Sidebar-->
+		</div>
+	</div>
+</section>
+<!-- END: SECTION -->
+
+<!-- FOOTER -->
+<footer class="background-dark text-grey" id="footer">
+	<div class="copyright-content">
+		<div class="container">
+			<div class="row">
+				<div class="copyright-text text-center"> &copy; 2016 POLO - Best HTML5 Template Ever. All Rights Reserved. <a target="_blank" href="http://www.inspiro-media.com">INSPIRO</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- END: FOOTER -->
+	</div>
+	<!-- END: WRAPPER -->
+
+	<!-- GO TOP BUTTON -->
+	<a class="gototop gototop-button" href="#"><i class="fa fa-chevron-up"></i></a>
+
+	<!-- Theme Base, Components and Settings -->
+    <script src="{% static 'blog/js/theme-functions.js' %}"></script>
+
+	<!-- Custom js file -->
+    <script src="{% static 'blog/js/custom.js' %}"></script>
+</body>
+
+</html>

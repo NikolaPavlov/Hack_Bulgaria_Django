@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+
+    <h2>This is your profile page</h2>
+    <hr />
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <table class="table table-hover table-responsive">
+        <thead>
+            <td>Username:</td>
+            <td>User password:</td>
+            <td>User email:</td>
+            <td>Date joined:</td>
+            <td>Is superuser:</td>
+        </thead>
+        <tbody>
+            <td>{{ request.user.username }}</td>
+            <td>{{ request.user.password }}</td>
+            <td>{{ request.user.email }}</td>
+            <td>{{ request.user.date_joined }}</td>
+            <td>{{ request.user.is_superuser }}</td>
+        </tbody>
+    </table>
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% load blog_extra_tags %}
+
+
+{% block content %}
+        <div class="row">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p>{{ post.title }}</p>
+                </div>
+
+                <div class="panel-body">
+                    {% autoescape off %}
+                        <p>{{ post.content|markdown }}</p>
+                    {% endautoescape %}
+                </div>
+
+                <div class="panel-footer">
+                    {% for t in tags %}
+                        {{ t.tag_name }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <h3>Comments for that post:</h3>
+        <div class="row">
+            <ul class="list-group">
+            {% for c in comments %}
+                <li class="list-group-item">
+                    {{ c.content }}
+                    <span class="badge">{{ c.created_at }}</span>
+                    <span class="badge">{{ c.author_email }}</span>
+                </li>
+                <br />
+            {% endfor %}
+            </ul>
+        </div>
+
+        {% if request.user.is_authenticated %}
+            <br />
+            <br />
+            <br />
+            <form action="" method="POST" accept-charset="utf-8">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        {% else %}
+            <p><strong>Comments is allowed for logged users only!</strong></p>
+        {% endif %}
+
+
+{% endblock content %}

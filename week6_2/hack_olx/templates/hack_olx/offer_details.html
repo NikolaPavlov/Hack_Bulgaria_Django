@@ -1,0 +1,22 @@
+{% extends "hack_olx/base.html" %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="card card-inverse" style="background-color: #333; border-color: #333;">
+            <img class="card-img-top" src="{{ MEDIA_URL }}{{ offer.image }}" alt="{{ offer.title }}">
+            <div class="card-block mx-auto text-center">
+                <strong><h2 class="card-title">{{ offer.title }}</h2></strong>
+                <i class='text-left'>Created by: {{ offer.author }}</i>
+                <p class="card-text">{{ offer.description }}</p>
+                <h3>
+                    Price: <span class="badge badge-info">{{ offer.price}}$</span>
+                </h3>
+            </div>
+            <div class='mx-auto text-center'>
+                <a class='btn btn-success' href="{% url 'offer_edit_url' offer.pk %}">Edit</a>
+            </div>
+            <i class='text-right'>Created at: {{ offer.created_at }}</i>
+        </div>
+    </div>
+{% endblock content %}

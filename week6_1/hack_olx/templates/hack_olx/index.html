@@ -1,0 +1,52 @@
+{% extends "hack_olx/base.html" %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+            <form action="" method="GET" accept-charset="utf-8">
+                {% csrf_token %}
+                <select name="category_id" size="1">
+                    {% for c in all_categories %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-info">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <br />
+    <hr />
+    <br />
+
+    {% if selected_offers %}
+    <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+            {% if selected_category %}
+                <h2>Selected category:{{ selected_category.first }}</h2>
+            {% else %}
+                <h2>All offers in all categories:</h2>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card-group">
+        {% for offer in selected_offers %}
+            <div class="card">
+                <img  src="{{ MEDIA_URL }}{{ offer.image }}" alt="{{ offer.title }} img" class="card-img-top" class="img-fluid" width="300" height="300">
+                <div class="card-block">
+                    <h4 class="card-title">{{ offer.title }}</h4>
+                    <p class="card-text">{{ offer.description }}</p>
+                    <p class="card-text">Price:{{ offer.price }}</p>
+                </div>
+                <div class="card-footer">
+                    <p>Author: {{ offer.author }}</p>
+                    <small class="text-muted">Created at: {{ offer.created_at }}</small>
+                </div>
+            </div>
+        {% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends "blog/base_log_in_register.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <section class="parallax fullscreen" style="background-image: url(images/parallax/8.jpg)">
+        <div class="container container-fullscreen">
+            <div class="text-middle">
+                <div class="row">
+                    <div class="col-md-6 center p-30 background-white">
+                        <h3>Create new post</h3>
+                        <form action="" method="POST" accept-charset="utf-8">
+                            {% if form.errors %}
+                                {{ form.errors }}
+                            {% endif %}
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

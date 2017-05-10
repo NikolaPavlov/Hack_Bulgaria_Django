@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+<table class="table table-bordered table-hover">
+    <thead>
+        <th>Post title:</td>
+        <th>Date created post:</td>
+        <th>Date updated post:</td>
+    </thead>
+    <tbody>
+        {% for bp in all_blog_posts %}
+        <tr>
+            <td>
+                <a href="{% url 'detail_url' bp.id %}">{{ bp.title }}</a>
+            </td>
+            <td>{{ bp.created_at }}</td>
+            <td>{{ bp.updated_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if request.user.is_authenticated %}
+    <a href="{% url 'create_post' %}"  class='btn btn-block
+    btn-success'>Create Post</a>
+{% else %}
+    <p><strong>You can't post until you logged in!</strong></p>
+{% endif %}
+
+{% endblock content %}

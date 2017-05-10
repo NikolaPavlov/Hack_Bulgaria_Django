@@ -1,0 +1,52 @@
+{% extends "hack_olx/base.html" %}
+
+
+{% block content %}
+
+    <div class="container">
+        <h3 class="text-center">Number of offers in categories</h3>
+        <div class="row">
+            <table class="table table-bordered table-inverse table-hover table-sm">
+                <thead>
+                    <tr>
+                        <td>Category name</td>
+                        <td>Number of offers</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in top3_categories %}
+                        <tr>
+                            <td>{{ c }}</td>
+                            <td>{{ c.num_offers }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <br />
+        <br />
+
+        <h3 class='text-center'>Users with most posts statistic:</h3>
+        <div class="row">
+            <table class="table table-bordered table-inverse table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Number of offers</th>
+                        <th>Number of categories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in top3_users %}
+                        <tr>
+                            <td>{{u.author__username}}</td>
+                            <td>{{u.number_of_offers}}</td>
+                            <td>{{u.number_of_categories}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

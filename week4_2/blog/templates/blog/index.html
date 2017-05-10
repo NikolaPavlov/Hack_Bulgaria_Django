@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="post-content post-thumbnail col-md-9">
+    {% for bp in all_blog_posts  %}
+        <div class="post-item">
+            <div class="post-image">
+                <a href="{% url 'detail_url' bp.id %}">
+                    <img alt="" src="{% static 'blog/img/11.jpg' %}">
+                </a>
+            </div>
+            <div class="post-content-details">
+                <div class="post-title">
+                    <h3><a href="{% url 'detail_url' bp.id %}">{{ bp.title }}</a></h3>
+                </div>
+                <div class="post-info">
+                    <span class="post-autor">Post by:
+                    {% for author in bp.authors.all %}
+                        <a href="#">{{ author }}</a>
+                    {% endfor %}
+                    </span>
+
+                    <span class="post-category">in
+                    {% for tag in bp.tags.all %}
+                        <a href="#">{{ tag }}</a>
+                    {% endfor %}
+                    </span>
+                </div>
+                <div class="post-description">
+                    <p>{{ bp.content|truncatechars:60}}</p>
+
+                    <div class="post-read-more">
+                        <a class="read-more" href="blog-post.html">read more <i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-meta">
+                <div class="post-date">
+                    <span class="post-date-day">{{ bp.created_at.day }}.</span>
+                    <span class="post-date-month">{{ bp.created_at.month }}.</span>
+                    <span class="post-date-year">{{ bp.created_at.year }}</span>
+                </div>
+
+                <div class="post-comments">
+                    <a href="#">
+                        <i class="fa fa-comments-o"></i>
+                        <span class="post-comments-number">{{ bp.comment_set.count }}</span>
+                    </a>
+                </div>
+                <div class="post-comments">
+                    <a href="#">
+                        <i class="fa fa-share-alt"></i>
+                        <span class="post-comments-number">XXX</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <a class="button border small rounded" href="#">Older posts</a>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{% url 'create_post_url' %}" class="btn btn-success">Create new post</a>
+    <br />
+    <br />
+    <br />
+
+
+    <table class=" table table-bordered table-hover">
+        <thead>
+            <th>Post title:</td>
+            <th>Date created post:</td>
+            <th>Date updated post:</td>
+        </thead>
+        {% for p in all_blog_posts %}
+            <tr>
+                <td><a href="{% url 'detail_url' post_id=p.id %}">{{ p.title }}</a></td>
+                <td><a href="{% url 'detail_url' post_id=p.id %}">{{ p.created_at }}</a></td>
+                <td><a href="{% url 'detail_url' post_id=p.id %}">{{ p.updated_at }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'create_post_url' %}" class="btn btn-primary btn-lg">Create Post</a>
+
+{% endblock content %}

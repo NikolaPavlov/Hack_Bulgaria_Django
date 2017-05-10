@@ -1,0 +1,4 @@
+TODO: prob should move bower_components in the BASE_DIR, currently is in
+static/
+
+

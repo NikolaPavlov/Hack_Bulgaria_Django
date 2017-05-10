@@ -1,0 +1,50 @@
+{% extends "hack_olx/base.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+            {% for c in all_categories %}
+                {% if current_category.pk == c.pk %}
+                    <a class='btn btn-success active' href="{% url 'offers_by_category_url' c.pk %}">{{ c.name }}</a>
+                {% else %}
+                    <a class='btn btn-success' href="{% url 'offers_by_category_url' c.pk %}">{{ c.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <br />
+    <hr />
+    <br />
+
+    <div class="container-fluid">
+        <div class="row">
+            {% for offer in object_list %}
+                    <div class="card hover-effect">
+                        <a href="{% url 'offer_detail_url' offer.pk %}">
+                            <img class ="img-fluid" src="{{ MEDIA_URL }}{{offer.image}}" alt="{{offer.title}}" style="height: 280px; width: 100%; display: block;"/>
+                        </a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3><span class='badge badge-pill badge-success'> {{ offer.title }} </span></h3>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h3><span class='badge badge-pill badge-info'> {{ offer.price }}$ </span></h3>
+                            </div>
+                        </div>
+                        {% if offer.status == 3 %}
+                            <div class="card-footer">
+                                <p class='btn btn-block btn-danger'>Rejected</p>
+                            </div>
+                        {% endif %}
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}
+

@@ -1,0 +1,7 @@
+Django==1.11
+django-crispy-forms==1.6.1
+django-debug-toolbar==1.7
+olefile==0.44
+Pillow==4.1.0
+pytz==2017.2
+sqlparse==0.2.3

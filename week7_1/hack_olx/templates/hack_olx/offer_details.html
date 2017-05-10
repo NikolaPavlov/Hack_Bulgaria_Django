@@ -1,0 +1,45 @@
+{% extends "hack_olx/base.html" %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="card card-inverse" style="background-color: #333; border-color: #333;">
+                <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ offer.image }}" alt="{{ offer.title }}" style="height: 100%; width: 100%; display: block;">
+                <div class="card-block mx-auto text-center">
+                    <strong><h2 class="card-title">{{ offer.title }}</h2></strong>
+                    <i class='text-left'>Created by: {{ offer.author }}</i>
+                    <p class="card-text">{{ offer.description }}</p>
+                    <h3>
+                        Price: <span class="badge badge-warning">{{ offer.price}}$</span>
+                    </h3>
+                </div>
+                <div class='mx-auto text-center'>
+                    {% if request.user.username == offer.author.username %}
+                        <div class="btn-group">
+                            <a class='btn btn-info' href="{% url 'offer_edit_url' offer.pk %}">Edit</a>
+                            <form action="{% url 'delete_offer_url' offer.pk %}" method="POST" accept-charset="utf-8">
+                                {% csrf_token %}
+                                <input class='btn btn-danger' type="submit" name=""  value="Delete" />
+                            </form>
+                        </div>
+                    {% endif %}
+
+                    <br />
+                    <br />
+
+                    {% if request.user.is_superuser and offer.status == 1 %}
+                        <a class='btn btn-success' href="{% url 'approve_offer_url' offer.pk %}">Approve</a>
+                        <a class='btn btn-danger' href="{% url 'reject_offer_url' offer.pk %}">Reject</a>
+                    {% endif %}
+
+                    {% if offer.status == 3 %}
+                        <span class="badge badge-danger">Rejected</span>
+                    {% endif %} 
+
+                </div>
+                <i class='text-right'>Created at: {{ offer.created_at }}</i>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

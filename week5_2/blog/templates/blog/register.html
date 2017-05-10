@@ -1,0 +1,82 @@
+{# https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html #}
+{% extends "blog/base_log_in_register.html" %}
+
+
+
+{% block content %}
+<!-- SECTION -->
+<section class="parallax fullscreen" style="background-image: url(images/parallax/8.jpg)">
+	<div class="container container-fullscreen">
+		<div class="text-middle">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 p-30 background-white">
+                    <form action="" method="POST" accept-charset="utf-8">
+                        {% csrf_token %}
+						<div class="col-md-12 m-t-20">
+							<h3>Register New Account</h3>
+						<p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p></div>
+
+						<div class="col-md-6 form-group">
+							<label class="sr-only">First Name</label>
+							<input name="first_name" type="text" value="" placeholder="First Name" class="form-control input-lg">
+						</div><div class="col-md-6 form-group">
+							<label class="sr-only">Last Name</label>
+							<input name="last_name" type="text" value="" placeholder="Last Name" class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">Username</label>
+							<input name="username" type="text" value="" placeholder="Username" class="form-control input-lg">
+						</div>
+                        <div class="col-md-6 form-group">
+                            <label class="sr-only">Password</label>
+							<input name="password" type="password" value="" placeholder="Password" class="form-control input-lg">
+						</div>
+
+						<div class="col-md-12 form-group">
+							<label class="sr-only">Address</label>
+							<input name="address" type="text" value="" placeholder="Address" class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">Apartment, suite, unit etc.</label>
+							<input name="apartment" type="text" value="" placeholder="Apartment, suite, unit etc." class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">Town / City</label>
+							<input name="city" type="text" value="" placeholder="Town / City" class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">State / County</label>
+							<input name="country" type="text" value="" placeholder="State / County" class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">Postcode / Zip</label>
+							<input name="post_code" type="text" value="" placeholder="Postcode / Zip" class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">Email</label>
+							<input name='email' type="text" value="" placeholder="Email" class="form-control input-lg">
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="sr-only">Phone</label>
+							<input name="phone" type="text" value="" placeholder="Phone" class="form-control input-lg">
+						</div>
+                        <div class="col-md-12 form-group">
+                            <button class="btn btn-primary" type="submit">Register New Account </button>
+                            <button type="button" class="btn btn-danger m-l-10">Cancel</button>
+					    </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{# <section> #}
+{#     <h1>test section dude</h1> #}
+{#     <form action="" method="POST" accept-charset="utf-8"> #}
+{#         {% csrf_token %} #}
+{#             {{ form.as_p }} #}
+{#         <button type="submit">Submit</button> #}
+{#     </form> #}
+{# </section> #}
+<!-- END: SECTION -->
+{% endblock content %}
