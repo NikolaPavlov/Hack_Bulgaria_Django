@@ -4,7 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, render
 
 from .forms import YouTubeUrlForm
-from .tasks import download_video, mp4_to_mp3, get_youtube_name
+from .tasks import download_video, mp4_to_mp3, send_mail, get_youtube_name
 
 
 # Create your views here.
@@ -31,7 +31,9 @@ def index(request):
                 3. send the mail with link to the MEDIA file
             '''
             # switch to chort? ( dl | convert | email send )
-            dl_task = chain(download_video.s(youtube_link) | mp4_to_mp3.s())
+            dl_task = chain(download_video.s(youtube_link) |
+                            mp4_to_mp3.s() |
+                            send_mail.s(email=email))
             dl_task.delay()
             return redirect(thanks)
         else:

@@ -146,4 +146,4 @@ MEDIA_URL = '/media/'
 
 # email Settings
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
-SENDGRID_API_KEY = ''
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')

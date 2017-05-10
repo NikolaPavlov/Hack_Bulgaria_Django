@@ -49,29 +49,16 @@ def mp4_to_mp3(filename):
 
 
 def send_mail(filename, email):
-    # provider dosent serve big files :(
-    # TODO fix
     file_mp3 = os.path.join(settings.MEDIA_ROOT, filename)
+    print(file_mp3)
+
+    f = settings.MEDIA_URL + filename
     mail = EmailMultiAlternatives(
         subject=filename,
-        body='This is a simple email body',
+        body = '<a href="localhost:8000/{}">link to the mp3<a>'.format(f),
         from_email='GRRRRR@gmail.com',
         to=[email],
         headers={"Reply-To": "GRRRRR@gmail"}
     )
 
-    mail.template_id='53f806f5-7a75-4775-a11a-4e238f41023c'
-
-    mail.attach_alternative(
-        "<h1>This is mail.attach_alternative </<h1>", "text/html"
-    )
-
-    # with open(file_mp3, 'rb') as f:
-    #     mail.attachments = [
-    #         (file_mp3, f.read(), 'application/mp3')
-    #     ]
-
     mail.send()
-
-
-
