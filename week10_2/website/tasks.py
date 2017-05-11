@@ -22,14 +22,15 @@ def download_video(link):
     download the video and return it's filename
     '''
     yt = YouTube(link)
+    # format_for_dl = yt.filter('mp4')[-1]
     video = yt.get('mp4', '720p')
     video.download(settings.MEDIA_ROOT)
     return yt.filename
 
 
-def get_youtube_name(link):
-    yt = YouTube(link)
-    return yt.filename
+# def get_youtube_name(link):
+#     yt = YouTube(link)
+#     return yt.filename
 
 
 @shared_task
@@ -46,19 +47,22 @@ def mp4_to_mp3(filename):
         mp3_file = os.path.join(settings.MEDIA_ROOT, mp3_file_name)
         f.write_audiofile(mp3_file)
         os.remove(mp4_file)
+    return filename
 
 
-def send_mail(filename, email):
-    file_mp3 = os.path.join(settings.MEDIA_ROOT, filename)
-    print(file_mp3)
-
-    f = settings.MEDIA_URL + filename
+@shared_task
+def send_email(filename, email):
     mail = EmailMultiAlternatives(
         subject=filename,
-        body = '<a href="localhost:8000/{}">link to the mp3<a>'.format(f),
+        body = '<h1>body</h1>',
         from_email='GRRRRR@gmail.com',
         to=[email],
         headers={"Reply-To": "GRRRRR@gmail"}
+    )
+
+    f = settings.MEDIA_URL + filename
+    mail.attach_alternative(
+        "<a href='http://localhost/{}'></a>", "text/html".format(f)
     )
 
     mail.send()
