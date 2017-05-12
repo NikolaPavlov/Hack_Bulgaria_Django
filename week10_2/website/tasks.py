@@ -17,7 +17,7 @@ import base64
 
 
 @shared_task
-def download_video(link):
+def download_video(link, email):
     '''
     download the video and return it's filename
     '''
@@ -25,7 +25,7 @@ def download_video(link):
     # format_for_dl = yt.filter('mp4')[-1]
     video = yt.get('mp4', '720p')
     video.download(settings.MEDIA_ROOT)
-    return yt.filename
+    return yt.filename, email
 
 
 # def get_youtube_name(link):
@@ -34,7 +34,7 @@ def download_video(link):
 
 
 @shared_task
-def mp4_to_mp3(filename):
+def mp4_to_mp3(filename, email):
     '''
     1. Convert the mp3 into mp4
     2. Remove the mp3
@@ -47,7 +47,7 @@ def mp4_to_mp3(filename):
         mp3_file = os.path.join(settings.MEDIA_ROOT, mp3_file_name)
         f.write_audiofile(mp3_file)
         os.remove(mp4_file)
-    return filename
+    return filename, email
 
 
 @shared_task
@@ -62,7 +62,7 @@ def send_email(filename, email):
 
     f = settings.MEDIA_URL + filename
     mail.attach_alternative(
-        "<a href='http://localhost/{}'></a>", "text/html".format(f)
+        "<a href='http://localhost/{}'>LINK TO MP3</a>", "text/html".format(f)
     )
 
     mail.send()

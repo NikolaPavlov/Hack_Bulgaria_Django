@@ -31,7 +31,7 @@ def index(request):
                 3. send the mail with link to the MEDIA file
             '''
             # switch to chort? ( dl | convert | email send )
-            dl_task = chain(download_video.s(youtube_link) | mp4_to_mp3.s() | send_email.s(email=email))
+            dl_task = chain(download_video.s(youtube_link, email) | mp4_to_mp3.s() | send_email.s(email=email))
             dl_task.delay()
             return redirect(thanks)
         else:
