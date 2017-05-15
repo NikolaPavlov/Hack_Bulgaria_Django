@@ -147,4 +147,3 @@ MEDIA_URL = '/media/'
 # email Settings
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY=open("config.secret").readline().rstrip()
-

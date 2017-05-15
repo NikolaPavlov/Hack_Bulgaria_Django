@@ -1,11 +1,8 @@
 from celery import chain
-
-from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, render
 
 from .forms import YouTubeUrlForm
 from .tasks import download_video, mp4_to_mp3, send_email
-
 
 # Create your views here.
 def index(request):
@@ -14,24 +11,11 @@ def index(request):
         return render(request, 'website/index.html', locals())
 
     if request.method == 'POST':
-        '''
-        checks to be done:
-            1. Is the link valid?
-            2. Is the duration in MAX_DURATION
-            3. Is daily limit reach
-        '''
         form = YouTubeUrlForm(request.POST)
         if form.is_valid():
             youtube_link = form.cleaned_data['link']
             email = form.cleaned_data['email']
-            '''
-            celery chain:
-                1. download the video
-                2. convert the dl video to mp3
-                3. send the mail with link to the MEDIA file
-            '''
-            # switch to chort? ( dl | convert | email send )
-            dl_task = chain(download_video.s(youtube_link, email) | mp4_to_mp3.s() | send_email.s(email=email))
+            dl_task = chain(download_video.s(youtube_link) | mp4_to_mp3.s() | send_email.s(email))
             dl_task.delay()
             return redirect(thanks)
         else:

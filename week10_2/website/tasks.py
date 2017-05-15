@@ -1,68 +1,59 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
-import glob
 
 import sendgrid
 import moviepy.editor as mp
 
 from celery import shared_task
 from pytube import YouTube
-from django.core.mail import EmailMultiAlternatives, send_mail
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from sendgrid.helpers.mail import Email, Content, Mail
 
 from week10_2 import settings
-from sendgrid.helpers.mail import Email, Content, Mail, Attachment
-import base64
 
 
 @shared_task
-def download_video(link, email):
+def download_video(youtube_link):
     '''
+    FIRST CELERY TASK
     download the video and return it's filename
     '''
-    yt = YouTube(link)
-    # format_for_dl = yt.filter('mp4')[-1]
-    video = yt.get('mp4', '720p')
+    yt = YouTube(youtube_link)
+    video = yt.get_videos()[-1] # -1 will select the best possible format
     video.download(settings.MEDIA_ROOT)
-    return yt.filename, email
-
-
-# def get_youtube_name(link):
-#     yt = YouTube(link)
-#     return yt.filename
+    return yt.filename
 
 
 @shared_task
-def mp4_to_mp3(filename, email):
+def mp4_to_mp3(filename):
     '''
-    1. Convert the mp3 into mp4
-    2. Remove the mp3
+    SECOND CELERY TASK
+    strip spaces from the filename
+    convert it from mp4 to mp3
+    remove the mp4 and return filename.mp3 string
     '''
-    mp4_file_name = filename + '.mp4'
+    # mp4_file_name = filename + '.mp4'
+    mp4_file_name = filename + '.webm'
     mp4_file = os.path.join(settings.MEDIA_ROOT, mp4_file_name)
     if os.path.exists(mp4_file):
         f = mp.AudioFileClip(mp4_file)
+        filename = str(filename).replace(' ', '_')
         mp3_file_name = filename + '.mp3'
         mp3_file = os.path.join(settings.MEDIA_ROOT, mp3_file_name)
         f.write_audiofile(mp3_file)
         os.remove(mp4_file)
-    return filename, email
+    return str(mp3_file_name)
 
 
 @shared_task
 def send_email(filename, email):
-    mail = EmailMultiAlternatives(
-        subject=filename,
-        body = '<h1>body</h1>',
-        from_email='GRRRRR@gmail.com',
-        to=[email],
-        headers={"Reply-To": "GRRRRR@gmail"}
-    )
+    link = "<a href='http://localhost:8000{}'>{}</a>".format(settings.MEDIA_URL + filename, filename)
 
-    f = settings.MEDIA_URL + filename
-    mail.attach_alternative(
-        "<a href='http://localhost/{}'>LINK TO MP3</a>", "text/html".format(f)
-    )
-
-    mail.send()
+    sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
+    from_email = Email('youtube_convertor@gmail')
+    subject = filename
+    to_email = Email(email)
+    content = Content('text/html', link)
+    mail = Mail(from_email, subject, to_email, content)
+    response = sg.client.mail.send.post(request_body=mail.get())
