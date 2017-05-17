@@ -4,6 +4,7 @@ billiard==3.5.0.2
 celery==4.0.2
 decorator==4.0.11
 Django==1.11
+django-environ==0.4.3
 imageio==2.1.2
 ipdb==0.10.3
 ipython==6.0.0

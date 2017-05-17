@@ -6,8 +6,23 @@ from __future__ import absolute_import, unicode_literals
 # for relative imports by default.
 import os
 
+import environ
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+env = environ.Env(DEBUG=(bool, False),)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+
+
+
+
+
+
 # Celery settings
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+# CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
@@ -28,17 +43,18 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3h$6!f*k#=nd*t62w+as&m)v#_td^t6(5t@8gzp()93i$uz39a'
+# SECRET_KEY = '3h$6!f*k#=nd*t62w+as&m)v#_td^t6(5t@8gzp()93i$uz39a'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -94,12 +110,12 @@ WSGI_APPLICATION = 'week10_2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -145,7 +161,6 @@ MEDIA_URL = '/media/'
 
 # email Settings
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
-# SENDGRID_API_KEY=open("config.secret").readline().rstrip()
-SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+SENDGRID_API_KEY = env('SENDGRID_API_KEY')
 
-CELERY_ALWAYS_EAGER = True
+# CELERY_ALWAYS_EAGER = True
