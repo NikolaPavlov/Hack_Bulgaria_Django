@@ -15,7 +15,9 @@ def index(request):
         if form.is_valid():
             youtube_link = form.cleaned_data['link']
             email = form.cleaned_data['email']
-            dl_task = chain(download_video.s(youtube_link) | mp4_to_mp3.s() | send_email.s(email))
+            dl_task = chain(download_video.s(youtube_link) |
+                            mp4_to_mp3.s() |
+                            send_email.s(email))
             dl_task.delay()
             return redirect(thanks)
         else:

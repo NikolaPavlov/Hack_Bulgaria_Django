@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
+import uuid
 
 import sendgrid
 import moviepy.editor as mp
@@ -8,7 +9,7 @@ import moviepy.editor as mp
 from celery import shared_task
 from pytube import YouTube
 from django.core.mail import EmailMessage, EmailMultiAlternatives
-from sendgrid.helpers.mail import Email, Content, Mail
+from sendgrid.helpers.mail import Content, Email, Mail
 
 from week10_2 import settings
 
@@ -17,22 +18,23 @@ from week10_2 import settings
 def download_video(youtube_link):
     '''
     FIRST CELERY TASK
-    download the video and return it's filename
+    download the video and return it's filename + uuid4
     '''
     yt = YouTube(youtube_link)
     video = yt.get_videos()[-1] # -1 will select the best possible format
     video.download(settings.MEDIA_ROOT)
-    return yt.filename
+    return yt.filename + '***' + str(uuid.uuid4())
 
 
 @shared_task
 def mp4_to_mp3(filename):
     '''
     SECOND CELERY TASK
-    strip spaces from the filename
+    strip spaces from the filename and remove uuid4 part
     convert it from mp4 to mp3
     remove the mp4 and return filename.mp3 string
     '''
+    filename = filename.split('***')[0]
     # mp4_file_name = filename + '.mp4'
     mp4_file_name = filename + '.webm'
     mp4_file = os.path.join(settings.MEDIA_ROOT, mp4_file_name)
@@ -48,7 +50,11 @@ def mp4_to_mp3(filename):
 
 @shared_task
 def send_email(filename, email):
-    link = "<a href='http://localhost:8000{}'>{}</a>".format(settings.MEDIA_URL + filename, filename)
+    '''
+    THIRD CELERY TASK
+    '''
+    link = "<a href='http://localhost:8000{}'>{}</a>".format(
+        settings.MEDIA_URL + filename, filename)
 
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
     from_email = Email('youtube_convertor@gmail')
