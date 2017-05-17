@@ -7,10 +7,13 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-                <h3 class="text-center">Paste youtube link here and we will send you mp3 file.</h3>
+                <h3 class="text-center">Paste youtube link here and we will send you mp3 file on email.</h3>
+                <h5 class="text-center">Only 10 downloads per user per day</h5>
+
+                <h4 class="text-center">ip:<b>{{ ip }}</b> daily_downlods:<b>{{ daily_downloads }}</b></h4>
                 <br />
                 <form action="" method="post">
-                    {{ form.errors }}
+                    {{ form.non_field_errors }}
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="link">
