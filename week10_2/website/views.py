@@ -2,7 +2,10 @@ from celery import chain
 from django.shortcuts import redirect, render
 
 from .forms import YouTubeUrlForm
-from .tasks import download_video, mp4_to_mp3, send_email
+from .tasks import (download_video,
+                    mp4_to_mp3,
+                    send_email,
+                    video_is_available)
 
 from week10_2 import settings
 from website.models import Statistics
@@ -28,20 +31,22 @@ def index(request):
         form = YouTubeUrlForm(request.POST)
 
         if form.is_valid():
-            if stats.daily_downloads <= settings.DAILY_LIMIT:
-                youtube_link = form.cleaned_data['link']
-                email = form.cleaned_data['email']
-                dl_task = chain(download_video.s(youtube_link) |
-                                mp4_to_mp3.s() |
-                                send_email.s(email))
-                dl_task.delay()
-                stats.daily_downloads += 1
-                stats.save()
-                return redirect(thanks)
-            else:
-                return render(request, 'website/daily_limit.html', locals())
+            youtube_link = form.cleaned_data['link']
+            email = form.cleaned_data['email']
+            if video_is_available(youtube_link):
+                if stats.daily_downloads <= settings.DAILY_LIMIT:
+                    dl_task = chain(download_video.s(youtube_link) |
+                                    mp4_to_mp3.s() |
+                                    send_email.s(email))
+                    dl_task.delay()
+                    stats.daily_downloads += 1
+                    stats.save()
+                    return redirect(thanks)
+                else:
+                    return render(request, 'website/daily_limit.html', locals())
 
         else:
+            # form is invalid re render it
             return render(request, 'website/index.html', locals())
 
 
