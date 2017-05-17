@@ -18,32 +18,28 @@ def get_client_ip(request):
 
 def index(request):
     form = YouTubeUrlForm()
-    if request.method == 'GET':
-        ip = get_client_ip(request)
-        stats, created = Statistics.objects.get_or_create(ip=ip)
-        daily_downloads = stats.daily_downloads
-        return render(request, 'website/index.html', locals())
+    ip = get_client_ip(request)
+    stats, created = Statistics.objects.get_or_create(ip=ip)
+    daily_downloads = stats.daily_downloads
+    return render(request, 'website/index.html', locals())
 
     if request.method == 'POST':
         form = YouTubeUrlForm(request.POST)
-        if form.is_valid():
-            youtube_link = form.cleaned_data['link']
-            email = form.cleaned_data['email']
 
-            ip = get_client_ip(request)
-            stats, created = Statistics.objects.get_or_create(ip=ip)
+        if form.is_valid():
             if stats.daily_downloads <= settings.DAILY_LIMIT:
+                youtube_link = form.cleaned_data['link']
+                email = form.cleaned_data['email']
                 dl_task = chain(download_video.s(youtube_link) |
                                 mp4_to_mp3.s() |
                                 send_email.s(email))
                 dl_task.delay()
-
                 stats.daily_downloads += 1
                 stats.save()
-
                 return redirect(thanks)
             else:
                 return render(request, 'website/daily_limit.html', locals())
+
         else:
             return render(request, 'website/index.html', locals())
 

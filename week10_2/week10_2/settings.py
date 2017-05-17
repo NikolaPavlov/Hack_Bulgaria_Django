@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
+
     # project apps
     'website',
 ]
@@ -165,3 +167,4 @@ SENDGRID_API_KEY = env('SENDGRID_API_KEY')
 
 # CELERY_ALWAYS_EAGER = True
 DAILY_LIMIT = 5
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

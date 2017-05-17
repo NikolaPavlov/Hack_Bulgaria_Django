@@ -1,4 +1,5 @@
 {% extends "website/base.html" %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -13,23 +14,9 @@
                 <h4 class="text-center">ip:<b>{{ ip }}</b> daily_downlods:<b>{{ daily_downloads }}</b></h4>
                 <br />
                 <form action="" method="post">
-                    {{ form.non_field_errors }}
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="link">
-                            Youtube link
-                        </label>
-                        <input class="form-control" id="link" name="link"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">
-                            Email address
-                        </label>
-                        <input class="form-control" id="email" name="email" type="email" />
-                    </div>
-                    <button type="submit" class="btn btn-success">
-                        Submit
-                    </button>
+                    {{ form|crispy }}
+                    <button type="submit">Submit</button>
                 </form>
             </div>
             <div class="col-md-3">
