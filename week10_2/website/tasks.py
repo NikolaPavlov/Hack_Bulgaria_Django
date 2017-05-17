@@ -20,7 +20,10 @@ def download_video(youtube_link):
     FIRST CELERY TASK
     download the video and return it's filename + uuid4
     '''
-    yt = YouTube(youtube_link)
+    try:
+        yt = YouTube(youtube_link)
+    except:
+        pass
     video = yt.get_videos()[-1] # -1 will select the best possible format
     video.download(settings.MEDIA_ROOT)
     return yt.filename + '***' + str(uuid.uuid4())
