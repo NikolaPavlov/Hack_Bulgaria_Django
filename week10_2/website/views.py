@@ -1,9 +1,10 @@
 from celery import chain
 from django.shortcuts import redirect, render
-from week10_2 import settings
 
 from .forms import YouTubeUrlForm
 from .tasks import download_video, mp4_to_mp3, send_email
+
+from week10_2 import settings
 from website.models import Statistics
 
 # Create your views here.
