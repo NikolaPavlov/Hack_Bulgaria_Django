@@ -120,8 +120,12 @@ WSGI_APPLICATION = 'week10_2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('POSTGRES_DB_NAME'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -172,5 +176,6 @@ EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY = env('SENDGRID_API_KEY')
 
 # CELERY_ALWAYS_EAGER = True
-DAILY_LIMIT = 4
+# DAILY_LIMIT = 4
+DAILY_LIMIT = 99
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

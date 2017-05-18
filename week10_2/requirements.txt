@@ -4,8 +4,10 @@ billiard==3.5.0.2
 celery==4.0.2
 decorator==4.0.11
 Django==1.11
+django-common-helpers==0.9.1
 django-crispy-forms==1.6.1
 django-environ==0.4.3
+django-kronos==1.0
 imageio==2.1.2
 ipdb==0.10.3
 ipython==6.0.0
@@ -21,9 +23,12 @@ pexpect==4.2.1
 pickleshare==0.7.4
 Pillow==4.1.1
 prompt-toolkit==1.0.14
+psycopg2==2.7.1
 ptyprocess==0.5.1
 Pygments==2.2.0
 pyparsing==2.2.0
+python-crontab==2.2.2
+python-dateutil==2.6.0
 python-http-client==2.2.1
 pytube==6.2.2
 pytz==2017.2
