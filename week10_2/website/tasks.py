@@ -14,14 +14,6 @@ from sendgrid.helpers.mail import Content, Email, Mail
 from week10_2 import settings
 
 
-def video_is_available(youtube_link):
-    try:
-        yt = YouTube(youtube_link)
-        return True
-    except:
-        return False
-
-
 @shared_task
 def download_video(youtube_link):
     '''

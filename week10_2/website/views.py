@@ -1,23 +1,12 @@
 from celery import chain
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 
 from .forms import YouTubeUrlForm
-from .tasks import (download_video,
-                    mp4_to_mp3,
-                    send_email,
-                    video_is_available)
+from .tasks import download_video, mp4_to_mp3, send_email
+from .utils.helpers import get_client_ip, video_is_available
 
 from week10_2 import settings
 from website.models import Statistics
-
-# Create your views here.
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 
 
 def index(request):
@@ -25,11 +14,8 @@ def index(request):
     ip = get_client_ip(request)
     stats, created = Statistics.objects.get_or_create(ip=ip)
     daily_downloads = stats.daily_downloads
-    return render(request, 'website/index.html', locals())
-
     if request.method == 'POST':
         form = YouTubeUrlForm(request.POST)
-
         if form.is_valid():
             youtube_link = form.cleaned_data['link']
             email = form.cleaned_data['email']
@@ -41,13 +27,12 @@ def index(request):
                     dl_task.delay()
                     stats.daily_downloads += 1
                     stats.save()
-                    return redirect(thanks)
+                    return redirect(reverse(thanks))
                 else:
-                    return render(request, 'website/daily_limit.html', locals())
-
-        else:
-            # form is invalid re render it
-            return render(request, 'website/index.html', locals())
+                    form_errors = 'Daily limit reached! Try again tomorrow!'
+            else:
+                form_errors = 'Check the link for errors, can\'t find the video!'
+    return render(request, 'website/index.html', locals())
 
 
 def thanks(request):

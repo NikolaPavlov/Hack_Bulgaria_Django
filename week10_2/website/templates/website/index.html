@@ -5,22 +5,32 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
                 <h3 class="text-center">Paste youtube link here and we will send you mp3 file on email.</h3>
                 <h5 class="text-center">Only 10 downloads per user per day</h5>
-
                 <h4 class="text-center">ip:<b>{{ ip }}</b> daily_downlods:<b>{{ daily_downloads }}</b></h4>
+            </div>
+            <div class="col-md-2"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-3"> </div>
+            <div class="col-lg-4 col-md-6">
                 <br />
-                <form action="" method="post">
+                <br />
+                <form action="{% url 'index_url' %}" method="post">
                     {% csrf_token %}
+                    {% if form_errors %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            {{ form_errors }}
+                        </div>
+                    {% endif %}
                     {{ form|crispy }}
-                    <button type="submit" class='btn btn-success'>Submit</button>
+                    <button type="submit" class='btn btn-success btn-block'>Submit</button>
                 </form>
             </div>
-            <div class="col-md-3">
-            </div>
+            <div class="col-lg-4 col-md-3"> </div>
         </div>
     </div>
 {% endblock %}
