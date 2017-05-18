@@ -69,10 +69,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third party
     'crispy_forms',
+    'kronos', # https://github.com/jgorset/django-kronos
 
     # project apps
     'website',
+]
+
+CRON_CLASSES = [
+    "website.cron.MyCronJob",
 ]
 
 MIDDLEWARE = [
@@ -144,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Sofia'
 
 USE_I18N = True
 
@@ -166,5 +172,5 @@ EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY = env('SENDGRID_API_KEY')
 
 # CELERY_ALWAYS_EAGER = True
-DAILY_LIMIT = 8
+DAILY_LIMIT = 4
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

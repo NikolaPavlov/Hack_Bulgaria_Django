@@ -8,7 +8,7 @@
             <div class="col-md-2"></div>
             <div class="col-md-8">
                 <h3 class="text-center">Paste youtube link here and we will send you mp3 file on email.</h3>
-                <h5 class="text-center">Only 10 downloads per user per day</h5>
+                <h5 class="text-center">Only 5 downloads per user per day</h5>
                 <h4 class="text-center">ip:<b>{{ ip }}</b> daily_downlods:<b>{{ daily_downloads }}</b></h4>
             </div>
             <div class="col-md-2"></div>
@@ -31,6 +31,9 @@
                 </form>
             </div>
             <div class="col-lg-4 col-md-3"> </div>
+        </div>
+        <div class="row text-center">
+            <h2>It is {% now "jS F Y H:i" %}</h2>
         </div>
     </div>
 {% endblock %}
