@@ -9,7 +9,10 @@
             <div class="col-md-8">
                 <h3 class="text-center">Paste youtube link here and we will send you mp3 file on email.</h3>
                 <h5 class="text-center">Only 5 downloads per user per day</h5>
-                <h4 class="text-center">ip:<b>{{ ip }}</b> daily_downlods:<b>{{ daily_downloads }}</b></h4>
+                <h4 class="text-center">
+                    ip:<span class="badge badge-info">{{ ip }}</span>
+                    daily_downlods:<span class="badge badge-warning">{{ daily_downloads }}</span>
+                </h4>
             </div>
             <div class="col-md-2"></div>
 
@@ -23,7 +26,13 @@
                     {% csrf_token %}
                     {% if form_errors %}
                         <div class="alert alert-danger text-center" role="alert">
-                            {{ form_errors }}
+                            <p>{{ form_errors }}</p>
+                            <p>Try again after: {{ time_left_until_next_dl }}</p>
+                        </div>
+                    {% endif %}
+                    {% if success_msg %}
+                        <div class="alert alert-success text-center" role="alert">
+                            <p>{{ success_msg }}</p>
                         </div>
                     {% endif %}
                     {{ form|crispy }}
@@ -31,9 +40,6 @@
                 </form>
             </div>
             <div class="col-lg-4 col-md-3"> </div>
-        </div>
-        <div class="row text-center">
-            <h2>It is {% now "jS F Y H:i" %}</h2>
         </div>
     </div>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, reverse
 
 from .forms import YouTubeUrlForm
 from .tasks import download_video, mp4_to_mp3, send_email
-from .utils.helpers import get_client_ip, video_is_available
+from .utils.helpers import get_client_ip, video_is_available, time_until_midnight
 
 from week10_2 import settings
 from website.models import Statistics
@@ -14,6 +14,7 @@ def index(request):
     ip = get_client_ip(request)
     stats, created = Statistics.objects.get_or_create(ip=ip)
     daily_downloads = stats.daily_downloads
+    time_left_until_next_dl = time_until_midnight()
     if request.method == 'POST':
         form = YouTubeUrlForm(request.POST)
         if form.is_valid():
@@ -27,9 +28,10 @@ def index(request):
                     dl_task.delay()
                     stats.daily_downloads += 1
                     stats.save()
-                    return redirect(reverse(thanks))
+                    # return redirect(reverse(thanks))
+                    success_msg = 'Email with the link to the file is on the way to your email'
                 else:
-                    form_errors = 'Daily limit reached! Try again tomorrow!'
+                    form_errors = 'Daily limit reached!'
             else:
                 form_errors = 'Check the link for errors, can\'t find the video!'
     return render(request, 'website/index.html', locals())
