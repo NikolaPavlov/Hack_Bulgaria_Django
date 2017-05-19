@@ -53,8 +53,10 @@ def send_email(filename, email):
     '''
     THIRD CELERY TASK
     '''
-    link = "<a href='http://localhost:8000{}'>{}</a>".format(
-        settings.MEDIA_URL + filename, filename)
+    # link = "<a href='http://localhost:8000{}'>{}</a>".format(
+    #     settings.MEDIA_URL + filename, filename)
+    link = "<a href='{}{}'>{}</a>".format(
+        settings.URL_HOST, settings.MEDIA_URL + filename, filename)
 
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
     from_email = Email('youtube_convertor@gmail')

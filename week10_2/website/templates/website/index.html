@@ -11,7 +11,11 @@
                 <h5 class="text-center">Only 5 downloads per user per day</h5>
                 <h4 class="text-center">
                     ip:<span class="badge badge-info">{{ ip }}</span>
-                    daily_downlods:<span class="badge badge-warning">{{ daily_downloads }}</span>
+                    {% if daily_downloads > 5 %}
+                        daily_downlods:<span class="badge badge-danger">{{ daily_downloads }}</span>
+                    {% else %}
+                        daily_downlods:<span class="badge badge-info">{{ daily_downloads }}</span>
+                    {% endif %}
                 </h4>
             </div>
             <div class="col-md-2"></div>
@@ -22,20 +26,29 @@
             <div class="col-lg-4 col-md-6">
                 <br />
                 <br />
-                <form action="{% url 'index_url' %}" method="post">
+                <form action="." method="post">
                     {% csrf_token %}
-                    {% if form_errors %}
+
+                    {% if form_errors_broken_link %}
                         <div class="alert alert-danger text-center" role="alert">
-                            <p>{{ form_errors }}</p>
-                            <p>Try again after: {{ time_left_until_next_dl }}</p>
+                            <p>{{ form_errors_broken_link }}</p>
                         </div>
                     {% endif %}
+
+                    {% if form_errors_limit %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            <p>Daily limit reached. Try again after: {{ time_left_until_next_dl }}</p>
+                        </div>
+                    {% endif %}
+
                     {% if success_msg %}
                         <div class="alert alert-success text-center" role="alert">
                             <p>{{ success_msg }}</p>
                         </div>
                     {% endif %}
+
                     {{ form|crispy }}
+
                     <button type="submit" class='btn btn-success btn-block'>Submit</button>
                 </form>
             </div>

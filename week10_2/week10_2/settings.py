@@ -15,11 +15,6 @@ env = environ.Env(DEBUG=(bool, False),)
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
-
-
-
-
-
 # Celery settings
 # CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
@@ -68,11 +63,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # third party
     'crispy_forms',
     'kronos', # https://github.com/jgorset/django-kronos
-
     # project apps
     'website',
 ]
@@ -153,13 +146,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Europe/Sofia'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -176,6 +165,7 @@ EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY = env('SENDGRID_API_KEY')
 
 # CELERY_ALWAYS_EAGER = True
-# DAILY_LIMIT = 4
-DAILY_LIMIT = 99
+DAILY_LIMIT = 4
+# DAILY_LIMIT = 99
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+URL_HOST = 'http://localhost:8000'

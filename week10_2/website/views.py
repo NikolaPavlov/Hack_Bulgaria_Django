@@ -28,12 +28,12 @@ def index(request):
                     dl_task.delay()
                     stats.daily_downloads += 1
                     stats.save()
-                    # return redirect(reverse(thanks))
                     success_msg = 'Email with the link to the file is on the way to your email'
+                    form = YouTubeUrlForm()
                 else:
-                    form_errors = 'Daily limit reached!'
+                    form_errors_limit = 'Daily limit reached!'
             else:
-                form_errors = 'Check the link for errors, can\'t find the video!'
+                form_errors_broken_link = 'Check the link for errors, can\'t find the video!'
     return render(request, 'website/index.html', locals())
 
 

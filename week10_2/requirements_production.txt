@@ -19,6 +19,7 @@ python-http-client==2.2.1
 pytube==6.2.2
 pytz==2017.2
 sendgrid==4.1.0
+sendgrid-django==4.0.4
 six==1.10.0
 tqdm==4.11.2
 vine==1.1.3
